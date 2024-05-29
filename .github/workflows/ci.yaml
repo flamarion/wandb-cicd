@@ -1,12 +1,15 @@
 name: Simple Action
 
-on: [push]
+on:
+    push:
+        branches:
+            'main'
+    pull_request:
+    workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
     steps:
         - uses: actions/checkout@v4
         - uses: actions/setup-python@v5
@@ -16,6 +19,8 @@ jobs:
           run: |
             echo "Hello, world!"
         - name: run python script
+          env:
+            WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
           run: |
             pip install -r requirements.txt
             python ci.py
