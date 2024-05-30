@@ -13,15 +13,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
         - uses: actions/checkout@v4
-        - uses: actions/setup-python@v5
-          with:
-            python-version: '3.11'
+        # - uses: actions/setup-python@v5
+        #   with:
+        #     python-version: '3.11'
+        # - name: run python script
+        #   env:
+        #     WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
+        #   run: |
+        #     pip install -r requirements.txt
+        #     python ci.py
+
         - name: print-special-env-vars
           run: |
-            echo "Env var '${{ github.event_name }}': ${{ github.event_name }}"
-        - name: run python script
+            ls ${{ github.workspace }}
+        - name: see payload
+          run: echo "PAYLOAD:\n${PAYLOAD}\n"
           env:
-            WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
-          run: |
-            pip install -r requirements.txt
-            python ci.py
+            PAYLOAD: ${{ toJson(github.event) }}
