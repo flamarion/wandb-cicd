@@ -1,4 +1,4 @@
-name: Simple Action
+name: Basic CI
 run-name: ${{ github.actor }} is testing the GHA
 
 on:
@@ -22,9 +22,6 @@ jobs:
       #   run: echo "the name is ${{ steps.set-var.outputs.VAL }}"  
             
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
       - name: run python script
         env:
           WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
