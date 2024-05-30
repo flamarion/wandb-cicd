@@ -11,26 +11,26 @@ jobs:
   gha-experiments:
     runs-on: ubuntu-latest
     steps:
-      - name: hello
-        id: set-var
-        shell: python
-        run: |
-          import os
-          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-            print(f'VAL=true', file=f)
-      - name: print value
-        run: echo "the name is ${{ steps.set-var.outputs.VAL }}"  
-            
-      # - uses: actions/checkout@v4
-      # - uses: actions/setup-python@v5
-      #   with:
-      #     python-version: '3.11'
-      # - name: run python script
-      #   env:
-      #     WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
+      # - name: hello
+      #   id: set-var
+      #   shell: python
       #   run: |
-      #     pip install -r requirements.txt
-      #     python ci.py
+      #     import os
+      #     with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+      #       print(f'VAL=true', file=f)
+      # - name: print value
+      #   run: echo "the name is ${{ steps.set-var.outputs.VAL }}"  
+            
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: run python script
+        env:
+          WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
+        run: |
+          pip install -r requirements.txt
+          python ci.py
       # - name: print-special-env-vars
       #   run: |
       #     ls ${{ github.workspace }}
