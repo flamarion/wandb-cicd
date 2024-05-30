@@ -8,10 +8,20 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  gha-experiments:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: hello
+        id: set-var
+        shell: python
+        run: |
+          import os
+          with open(os.environ['GITHUB_OUTPU&T'], 'a') as f:
+            print(f'VAL=true', file=f)
+      - name: print value
+        run: echo "the name is ${{ steps.set-var.outputs.VAL }}"        
+            
+      # - uses: actions/checkout@v4
       # - uses: actions/setup-python@v5
       #   with:
       #     python-version: '3.11'
@@ -21,16 +31,15 @@ jobs:
       #   run: |
       #     pip install -r requirements.txt
       #     python ci.py
-
-      - name: print-special-env-vars
-        run: |
-          ls ${{ github.workspace }}
-      - name: see payload
-        run: echo "PAYLOAD:\n${PAYLOAD}\n"
-        env:
-          PAYLOAD: ${{ toJson(github.event) }}
-      - name: print something from payload
-        run: echo "${PUSHER} pushed this and the email is ${EMAIL}"
-        env:
-          PUSHER: ${{ github.event.pusher.name }}
-          EMAIL: ${{ github.event.pusher.email }}
+      # - name: print-special-env-vars
+      #   run: |
+      #     ls ${{ github.workspace }}
+      # - name: see payload
+      #   run: echo "PAYLOAD:\n${PAYLOAD}\n"
+      #   env:
+      #     PAYLOAD: ${{ toJson(github.event) }}
+      # - name: print something from payload
+      #   run: echo "${PUSHER} pushed this and the email is ${EMAIL}"
+      #   env:
+      #     PUSHER: ${{ github.event.pusher.name }}
+      #     EMAIL: ${{ github.event.pusher.email }}
