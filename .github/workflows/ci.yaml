@@ -2,31 +2,35 @@ name: Simple Action
 run-name: ${{ github.actor }} is testing the GHA
 
 on:
-    push:
-        branches:
-            'main'
-    pull_request:
-    workflow_dispatch:
+  push:
+    branches: "main"
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v4
-        # - uses: actions/setup-python@v5
-        #   with:
-        #     python-version: '3.11'
-        # - name: run python script
-        #   env:
-        #     WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
-        #   run: |
-        #     pip install -r requirements.txt
-        #     python ci.py
+      - uses: actions/checkout@v4
+      # - uses: actions/setup-python@v5
+      #   with:
+      #     python-version: '3.11'
+      # - name: run python script
+      #   env:
+      #     WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
+      #   run: |
+      #     pip install -r requirements.txt
+      #     python ci.py
 
-        - name: print-special-env-vars
-          run: |
-            ls ${{ github.workspace }}
-        - name: see payload
-          run: echo "PAYLOAD:\n${PAYLOAD}\n"
-          env:
-            PAYLOAD: ${{ toJson(github.event) }}
+      - name: print-special-env-vars
+        run: |
+          ls ${{ github.workspace }}
+      - name: see payload
+        run: echo "PAYLOAD:\n${PAYLOAD}\n"
+        env:
+          PAYLOAD: ${{ toJson(github.event) }}
+      - name: print something from payload
+        run: echo "${PUSHER} pushed this and the email is ${EMAIL}"
+        env:
+          PUSHER: ${{ github.event.pusher.name }}
+          EMAIL: ${{ github.event.pusher.email }}
